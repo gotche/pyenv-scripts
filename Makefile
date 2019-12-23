@@ -5,7 +5,7 @@ test:
 	python -m pytest
 
 coverage:
-	coverage run --source update -m pytest
+	coverage run -m pytest
 	coverage report -m
 
 check_types:

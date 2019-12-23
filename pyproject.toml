@@ -25,3 +25,7 @@ exclude = '''
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
+
+[tool.coverage.run]
+branch = true
+source = ['update']
