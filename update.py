@@ -75,12 +75,12 @@ def get_target_details(target: str) -> dict:
 
     for extension in extensions:
         url = f'https://www.python.org/ftp/python/{target}/Python-{target}.{extension}'
-        r = requests.get(url)
+        request = requests.get(url)
 
-        r.raise_for_status()
+        request.raise_for_status()
 
         sha = hashlib.sha256()
-        sha.update(r.content)
+        sha.update(request.content)
         details[extension] = sha.hexdigest()
 
     return details
