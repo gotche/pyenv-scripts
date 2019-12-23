@@ -8,10 +8,6 @@ the hashes to create a new file
 
 """
 import hashlib
-import io
-import os
-import shutil
-import tempfile
 from collections import namedtuple
 from pathlib import Path
 
