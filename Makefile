@@ -8,6 +8,9 @@ coverage:
 	coverage run --source update -m pytest
 	coverage report -m
 
+check_types:
+	mypy .
+
 install_dev_env:
 	pyenv uninstall -f $(VENV)
 	pyenv install -s $(VERSION)
