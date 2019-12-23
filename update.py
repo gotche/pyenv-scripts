@@ -16,7 +16,12 @@ import requests
 from parse import parse
 
 
-def get_previous_version(target):
+def get_previous_version(target: str) -> str:
+    '''
+        returns the previous python version
+
+        f('3.8.1') -> '3.8.0'
+    '''
     Version = namedtuple('Version', 'major minor micro')
     current = Version(*(int(i) for i in target.split('.')))
 
@@ -29,12 +34,20 @@ def get_previous_version(target):
     return f'{previous.major}.{previous.minor}.{previous.micro}'
 
 
-def get_build_file(target):
+def get_build_file(target: str) -> Path:
+    '''
+        Returns the file that contains the build process for the target
+        version
+    '''
     prefix = '~/code/pyenv/'
     return Path(f'{prefix}/plugins/python-build/share/python-build/{target}').expanduser()
 
 
 def replace_target_details(previous_file, new_file, previous_version, new_version, details):
+    '''
+        Copies in the new file the build process, replacing the values
+        corresponding to the new version (the version itself and hashes)
+    '''
     for line in previous_file:
         p = parse('install_package "{version}" "{url}" {everything_else}', line.strip())
 
@@ -52,7 +65,11 @@ def replace_target_details(previous_file, new_file, previous_version, new_versio
         new_file.write(line)
 
 
-def get_target_details(target):
+def get_target_details(target: str) -> dict:
+    '''
+        Returns a dictionary containing the hashes of the different
+        compressed files
+    '''
     extensions = ['tar.xz', 'tgz']
     details = {}
 
@@ -72,6 +89,14 @@ def get_target_details(target):
 @click.command()
 @click.argument('target')
 def update(target):
+    '''
+        This tool will create a new build file for the specified version
+        using the same instructions as found in the previous version file
+
+        Usage: python update.py <VERSION>
+
+        ex: python update.py 3.8.2
+    '''
     previous = get_previous_version(target)
     previous_file, new_file = get_build_file(previous), get_build_file(target)
 
