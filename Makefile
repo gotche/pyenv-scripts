@@ -1,5 +1,6 @@
 VENV := pyenv-scripts
-VERSION := 3.7.6
+VERSION := 3.9.2
+FAMILY := python3.9
 
 test:
 	python -m pytest
@@ -14,6 +15,6 @@ check_types:
 install_dev_env:
 	pyenv uninstall -f $(VENV)
 	pyenv install -s $(VERSION)
-	pyenv virtualenv -p python3.7 $(VERSION) $(VENV)
+	pyenv virtualenv -p $(FAMILY) $(VERSION) $(VENV)
 	pyenv local $(VENV)
 	pip install -r requirements.txt
